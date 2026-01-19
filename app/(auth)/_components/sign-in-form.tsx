@@ -109,12 +109,7 @@ const SignInForm = () => {
         <Field>
           <Button
             variant="outline"
-            onClick={async () => {
-              const result = await signInGoogle();
-              if (result?.success === false) {
-                toast.error(result.error);
-              }
-            }}
+            onClick={signInGoogle}
           >
             Login with Google
           </Button>
@@ -123,12 +118,7 @@ const SignInForm = () => {
         <Field>
           <Button
             variant="outline"
-            onClick={async () => {
-              const result = await signInGithub();
-              if (result?.success === false) {
-                toast.error(result.error);
-              }
-            }}
+            onClick={signInGithub}
           >
             Login with Github
           </Button>

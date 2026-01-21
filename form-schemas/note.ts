@@ -1,5 +1,15 @@
 import z from "zod";
 
+function hasText(node: unknown): node is { text: string } {
+  return (
+    typeof node === "object" &&
+    node !== null &&
+    "text" in node &&
+    typeof (node as any).text === "string" &&
+    (node as any).text.trim().length > 0
+  );
+}
+
 export const noteSchema = z.object({
   title: z
     .string()
@@ -18,9 +28,7 @@ export const noteSchema = z.object({
           (n) =>
             n?.type === "paragraph" &&
             Array.isArray(n.content) &&
-            n.content.some(
-              (c) => typeof c?.text === "string" && c.text.trim().length > 0,
-            ),
+            n.content.some(hasText),
         ),
       "Note cannot be empty",
     ),

@@ -13,9 +13,14 @@ export const noteSchema = z.object({
     })
     .refine(
       (doc) =>
-        doc.content?.some(
+        Array.isArray(doc?.content) &&
+        doc.content.some(
           (n) =>
-            n.type === "paragraph" && n.content?.some((c) => c.text?.trim()),
+            n?.type === "paragraph" &&
+            Array.isArray(n.content) &&
+            n.content.some(
+              (c) => typeof c?.text === "string" && c.text.trim().length > 0,
+            ),
         ),
       "Note cannot be empty",
     ),

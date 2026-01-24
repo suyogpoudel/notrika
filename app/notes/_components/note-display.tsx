@@ -24,7 +24,10 @@ export const NoteDisplay = ({ note }: NoteDisplayProps) => {
   const editor = useReadOnlyEditor(note.content);
 
   return (
-    <Link href={`/notes/${note.slug}`}>
+    <Link
+      href={`/notes/${note.slug}`}
+      className="hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl active:shadow-sm transition-all duration-200"
+    >
       <Card className="flex flex-col h-full">
         <CardHeader>
           <CardTitle>{note.title}</CardTitle>
@@ -33,7 +36,7 @@ export const NoteDisplay = ({ note }: NoteDisplayProps) => {
           <EditorContent editor={editor} />
         </CardContent>
         <CardFooter
-          className={`${note.isPublic ? "text-green-400 dark:text-green-500" : "text-red-400 dark:text-red-500"}`}
+          className={`${note.isPublic ? "text-green-500 dark:text-green-400" : "text-red-500 dark:text-red-400"}`}
         >
           {note.isPublic ? "Public" : "Private"}
         </CardFooter>

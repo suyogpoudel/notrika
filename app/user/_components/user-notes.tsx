@@ -16,10 +16,13 @@ const UserNotes = async (props: UserNoteProps) => {
 
   if (!session) redirect("/sign-in");
 
-  const notes = await db
-    .select()
-    .from(note)
-    .where(and(eq(note.userId, userId), eq(note.isPublic, true)));
+  const isOwner = session.user.id === userId;
+
+  const notes = await db.query.note.findMany({
+    where: isOwner
+      ? eq(note.userId, userId)
+      : and(eq(note.userId, userId), eq(note.isPublic, true)),
+  });
 
   if (!notes) {
     return <div>No notes yet :( </div>;
@@ -38,18 +41,6 @@ const UserNotes = async (props: UserNoteProps) => {
           />
         ))}
       </div>
-      {session.user.id === userId && (
-        <p className="text-center text-muted-foreground mt-10">
-          Only showing your public notes. Go to{" "}
-          <Link
-            href="/notes"
-            className="text-primary  hover:underline underline-offset-4"
-          >
-            Notes
-          </Link>{" "}
-          page to see all.
-        </p>
-      )}
     </div>
   );
 };
